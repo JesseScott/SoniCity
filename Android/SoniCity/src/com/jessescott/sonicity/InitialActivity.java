@@ -4,15 +4,20 @@ package com.jessescott.sonicity;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 
 /* CLASS */
 public class InitialActivity extends Activity {
 
+	// GLOBALS
+	private static final String TAG = "SoniCity";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_initial);
+		Log.v(TAG, " - Starting The Initial Screen - ");
 		
 		// Thread
 		Thread timer = new Thread(){
@@ -29,6 +34,7 @@ public class InitialActivity extends Activity {
 					e.printStackTrace();
 				}
 				finally {
+					Log.v(TAG, " - Ending The Initial Screen - ");
 					finish();
 				}
 			}
