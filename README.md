@@ -1,4 +1,4 @@
 SoniCity
 ========
 
-a tol for the derive
+a tool for the derive
