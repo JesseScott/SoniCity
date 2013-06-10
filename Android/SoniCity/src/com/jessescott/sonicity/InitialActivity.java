@@ -1,15 +1,40 @@
 package com.jessescott.sonicity;
 
+/* IMPORTS */
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 
+/* CLASS */
 public class InitialActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_initial);
+		
+		// Thread
+		Thread timer = new Thread(){
+			@Override
+			public void run() {
+				//super.run();
+				try { 
+					// Time for 5 seconds
+					sleep(5000);
+					Intent i = new Intent("android.intent.action.MENU");
+					startActivity(i);
+				}
+				catch(InterruptedException e) {
+					e.printStackTrace();
+				}
+				finally {
+					finish();
+				}
+			}
+		};
+		timer.start();
+		
 	}
 
 	@Override
@@ -19,4 +44,4 @@ public class InitialActivity extends Activity {
 		return true;
 	}
 
-}
+} /* */
