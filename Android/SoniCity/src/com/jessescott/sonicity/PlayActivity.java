@@ -25,6 +25,7 @@ import android.location.GpsStatus.Listener;
 import android.location.GpsStatus.NmeaListener;
 
 import org.puredata.android.io.AudioParameters;
+import org.puredata.android.io.PdAudio;
 import org.puredata.android.service.PdService;
 import org.puredata.android.utils.PdUiDispatcher;
 import org.puredata.core.PdBase;
@@ -38,7 +39,6 @@ public class PlayActivity extends Activity {
 	// GLOBALS
 	private static final String TAG = "SoniCity";
 	private PdUiDispatcher dispatcher;
-	private PdService pdService = null;
 	LocationManager locationManager;
 	MyLocationListener locationListener;
 	Paint paint = new Paint();
@@ -53,54 +53,23 @@ public class PlayActivity extends Activity {
 	
 	/* LIBPD */
 	
-	// Pd Service
-	private final ServiceConnection pdConnection = new ServiceConnection() {
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			pdService = ((PdService.PdBinder)service).getService();
-			try {
-				initPd();
-				loadPatch();
-			} catch (IOException e) {
-				Log.e(TAG, e.toString());
-				finish();
-			}
-		}
-
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			// this method will never be called
-		}
-
-	};
-	
 	// Initialize Audio
 	private void  initPd() throws IOException {
-		// Configure the audio glue
+		Log.v(TAG, "Initializing PD ");
+		
+		// Audio Settings
 		AudioParameters.init(this);
 		int sampleRate = AudioParameters.suggestSampleRate();
-		pdService.initAudio(sampleRate, 0, 2, 10.0f);
-		start();
-
-		// Create and install the dispatcher
+		PdAudio.initAudio(sampleRate, 0, 2, 8, true);
+		
+		// Dispatcher
 		dispatcher = new PdUiDispatcher();
 		PdBase.setReceiver(dispatcher);
-		dispatcher.addListener("pitch", new PdListener.Adapter() {
-			@Override
-			public void receiveFloat(String source, final float x) {
-				//
-			}
-		});
+		
 	}
-
-	private void start() {
-		if (!pdService.isRunning()) {
-			Intent intent = new Intent(PlayActivity.this, PlayActivity.class);
-			pdService.startAudio(intent, R.drawable.icon, "SoniCity", "Return to SoniCity.");
-		}
-	}
-
+	
 	private void loadPatch() throws IOException {
+		Log.v(TAG, "Loading PD Patch");
 		File dir = getFilesDir();
 		IoUtils.extractZipResource(
 				getResources().openRawResource(R.raw.sonicity), dir, true);
@@ -123,32 +92,23 @@ public class PlayActivity extends Activity {
 	/* PHONE */
 	
 	private void initSystemServices() {
+		Log.v(TAG, "Starting System Service");
 		TelephonyManager telephonyManager =
 				(TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		telephonyManager.listen(new PhoneStateListener() {
 			@Override
 			public void onCallStateChanged(int state, String incomingNumber) {
-				if (pdService == null) return;
 				if (state == TelephonyManager.CALL_STATE_IDLE) {
-					start(); } else {
-						pdService.stopAudio(); }
+					PdAudio.startAudio(getApplicationContext());
+				} else {
+					PdAudio.stopAudio(); 
+				}
 			}
 		}, PhoneStateListener.LISTEN_CALL_STATE);
 	}
 	
 	/* UI */
-	 protected void onDraw(Canvas canvas) {
-	 	paint.setColor(Color.BLUE);
-	 	paint.setTextSize(36);
-	 	canvas.drawText(String.valueOf("OUR LAT IS: " + currentLatitude),  100, 100, paint);
-	 	canvas.drawText(String.valueOf("OUR LON IS: " + currentLongitude), 100, 200, paint);
-	 	canvas.drawText(String.valueOf("OUR ALT IS: " + currentAltitude),  100, 300, paint);
-	 	canvas.drawText(String.valueOf("OUR ACC IS: " + currentAccuracy),  100, 400, paint);
-	 	canvas.drawText(String.valueOf("OUR SPE IS: " + currentSpeed),     100, 500, paint);
-	 	canvas.drawText(String.valueOf("OUR BEA IS: " + currentBearing),   100, 600, paint);
-	 	canvas.drawText(String.valueOf("OUR PRO IS: " + currentProvider),  100, 700, paint);
-	 	//invalidate();
-	}
+
 	
 	/* LIFECYCLE */
 	
@@ -164,9 +124,16 @@ public class PlayActivity extends Activity {
 		setContentView(R.layout.play_layout);
 		//setContentView(locationListener);
 		
-		// Services
+		// PD
+		try {
+			initPd();
+			loadPatch();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		// Telephone Services
 		initSystemServices();
-		bindService(new Intent(this, PdService.class), pdConnection, BIND_AUTO_CREATE);
 		
 	}
 	
@@ -174,12 +141,14 @@ public class PlayActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		Log.v(TAG, " - Exiting From The Play Screen - ");
+		PdAudio.stopAudio();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		// GPS
+		Log.v(TAG, " - Asking For GPS - ");
 		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 5, locationListener);
 	}
@@ -187,7 +156,9 @@ public class PlayActivity extends Activity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		unbindService(pdConnection);
+		Log.v(TAG, " - Destroying Play Activity - ");
+		PdAudio.release();
+		PdBase.release();
 	}
 
 
@@ -209,6 +180,14 @@ class MyLocationListener implements LocationListener {
 	currentSpeed = (float)location.getSpeed();
 	currentBearing = (float)location.getBearing();
     currentProvider  = location.getProvider();
+    
+    // Log
+    Log.v(TAG, "Lat is " + currentLatitude);
+    Log.v(TAG, "Lon is " + currentLongitude);
+    
+    // Send To Pd
+    sendLat(currentLatitude);
+    sendLon(currentLongitude);
   }
 
   public void onProviderDisabled (String provider) { 
