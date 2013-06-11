@@ -10,6 +10,6 @@
     <string name="about_btn">about</string>
     <string name="help_btn">help</string>
     <string name="settings_btn">settings</string>
-    <string name="start_btn">start</string>
+    <string name="play_btn">play</string>
 
 </resources>
