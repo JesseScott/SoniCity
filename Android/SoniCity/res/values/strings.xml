@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Splash Screen -->
     <string name="app_name">SoniCity</string>
     <string name="sub_title">a tool for the dérive</string>
     <string name="action_settings">Settings</string>
+    
+    <!-- Main Menu Buttons -->
+    <string name="about_btn">about</string>
+    <string name="help_btn">help</string>
+    <string name="settings_btn">settings</string>
+    <string name="play_btn">play</string>
 
 </resources>

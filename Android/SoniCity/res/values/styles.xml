@@ -38,5 +38,16 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center_horizontal</item>      
     </style>
+    
+    <!-- Button Style -->
+    <style name="ButtonStyle">
+        <item name="android:padding">4dip</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">#505050</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>      
+    </style>
 
 </resources>
