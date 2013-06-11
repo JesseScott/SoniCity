@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jessescott.sonicity"
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <!-- SDK VERSIONS  -->
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" 
     />
+    
+    <!-- PERMISSIONS USED  -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -93,9 +100,6 @@
             </intent-filter>
         </activity>
         
-        
-        
-        
-      </application>  
+    </application>  
 
 </manifest>

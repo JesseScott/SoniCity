@@ -4,12 +4,56 @@
     android:layout_height="match_parent" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/PlayScreen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="@string/play_btn"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge" 
+    />
+
+    <TextView
+        android:id="@+id/Longitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/PlayScreen"
+        android:layout_below="@+id/Latitude"
+        android:layout_marginTop="27dp"
+        android:text="@string/longitude"
+        android:textAppearance="?android:attr/textAppearanceMedium" 
+    />
+
+    <TextView
+        android:id="@+id/Latitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Longitude"
+        android:layout_below="@+id/PlayScreen"
+        android:layout_marginTop="35dp"
+        android:text="@string/latitude"
+        android:textAppearance="?android:attr/textAppearanceMedium" 
+    />
+
+    <TextView
+        android:id="@+id/ActualLat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Longitude"
+        android:layout_toRightOf="@+id/Longitude"
+        android:layout_marginLeft="10dp"
+        android:text="0.0"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/ActualLon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/Longitude"
+        android:layout_alignBottom="@+id/Longitude"
+        android:layout_alignLeft="@+id/ActualLat"
+        android:layout_marginLeft="0dp"
+        android:text="0.0"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

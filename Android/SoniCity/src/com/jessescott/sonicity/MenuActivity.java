@@ -31,6 +31,7 @@ public class MenuActivity extends Activity {
 		about_button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				Log.v(TAG, "Clicked The About Button");
 				startActivity(new Intent("android.intent.action.ABOUT"));
 			}
 		});
@@ -39,6 +40,7 @@ public class MenuActivity extends Activity {
 		help_button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				Log.v(TAG, "Clicked The Help Button");
 				startActivity(new Intent("android.intent.action.HELP"));
 			}
 		});
@@ -47,6 +49,7 @@ public class MenuActivity extends Activity {
 		settings_button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				Log.v(TAG, "Clicked The Settings Button");
 				startActivity(new Intent("android.intent.action.SETTINGS"));
 			}
 		});
@@ -55,9 +58,8 @@ public class MenuActivity extends Activity {
 		start_button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent i = new Intent("android.intent.action.PLAY");
-				startActivity(i);
-				//startActivity(new Intent("android.intent.action.PLAY"));
+				Log.v(TAG, "Clicked The About Button");
+				startActivity(new Intent("android.intent.action.PLAY"));
 			}
 		});
 		

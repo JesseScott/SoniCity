@@ -22,4 +22,13 @@
     <string name="website">jesses.co.tt | memelab.ca</string>
     <string name="supporters">Made with the support of Mobile Muse, The Banff Centre for the Arts, Tramploline, and DAIMON</string>
 
+    <!-- Play Screen -->
+    <string name="latitude">Lat is</string>
+    <string name="longitude">Lon is</string>
+    <string name="altitude">Alt is</string>
+    <string name="accuracy">Acc is</string>
+    <string name="speed">Spd is</string>
+    <string name="bearing">Brn is </string>
+    <string name="provider">Pro is</string>
+    
 </resources>
