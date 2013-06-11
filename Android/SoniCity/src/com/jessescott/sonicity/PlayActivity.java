@@ -5,31 +5,24 @@ import java.io.File;
 import java.io.IOException;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.view.View;
+import android.widget.TextView;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.location.Location;
 import android.location.LocationManager;
 import android.location.LocationListener;
-import android.location.GpsStatus.Listener;
-import android.location.GpsStatus.NmeaListener;
+
 
 import org.puredata.android.io.AudioParameters;
 import org.puredata.android.io.PdAudio;
-import org.puredata.android.service.PdService;
 import org.puredata.android.utils.PdUiDispatcher;
 import org.puredata.core.PdBase;
-import org.puredata.core.PdListener;
 import org.puredata.core.utils.IoUtils;
 
 
@@ -41,7 +34,9 @@ public class PlayActivity extends Activity {
 	private PdUiDispatcher dispatcher;
 	LocationManager locationManager;
 	MyLocationListener locationListener;
-	Paint paint = new Paint();
+	
+	TextView latitude, longitude;
+	TextView ActualLatitude, ActualLongitude;
 	
 	float currentLatitude  	= 0;
 	float currentLongitude 	= 0;
@@ -71,8 +66,7 @@ public class PlayActivity extends Activity {
 	private void loadPatch() throws IOException {
 		Log.v(TAG, "Loading PD Patch");
 		File dir = getFilesDir();
-		IoUtils.extractZipResource(
-				getResources().openRawResource(R.raw.sonicity), dir, true);
+		IoUtils.extractZipResource(getResources().openRawResource(R.raw.sonicity), dir, true);
 		File patchFile = new File(dir, "sonicity.pd");
 		PdBase.openPatch(patchFile.getAbsolutePath());
 	}
@@ -93,8 +87,7 @@ public class PlayActivity extends Activity {
 	
 	private void initSystemServices() {
 		Log.v(TAG, "Starting System Service");
-		TelephonyManager telephonyManager =
-				(TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		telephonyManager.listen(new PhoneStateListener() {
 			@Override
 			public void onCallStateChanged(int state, String incomingNumber) {
@@ -116,13 +109,9 @@ public class PlayActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.v(TAG, " - Starting The Play Screen - ");
-		
-		// GPS
-		locationListener = new MyLocationListener(this);
 
 		// UI
 		setContentView(R.layout.play_layout);
-		//setContentView(locationListener);
 		
 		// PD
 		try {
@@ -131,9 +120,33 @@ public class PlayActivity extends Activity {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		// GPS
+		locationListener = new MyLocationListener(this);	
 		
 		// Telephone Services
 		initSystemServices();
+		
+		// TextViews
+		latitude  = (TextView) findViewById(R.id.Latitude);
+		longitude = (TextView) findViewById(R.id.Longitude);
+		
+		ActualLatitude  = (TextView) findViewById(R.id.ActualLat);
+		ActualLatitude.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.v(TAG, "Asking For New Latitude");
+				ActualLatitude.setText(locationListener.getCurrentLatitude());	
+			}
+		});
+		
+		ActualLongitude = (TextView) findViewById(R.id.ActualLon);
+		ActualLongitude.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.v(TAG, "Asking For New Latitude");
+				ActualLongitude.setText(locationListener.getCurrentLongitude());	
+			}
+		});
 		
 	}
 	
@@ -141,14 +154,18 @@ public class PlayActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		Log.v(TAG, " - Exiting From The Play Screen - ");
+		// Stop GPS
+		locationManager.removeUpdates(locationListener);
+		locationManager = null;
+		// Stop Pd
 		PdAudio.stopAudio();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Log.v(TAG, " - Entering The Play Screen - ");
 		// GPS
-		Log.v(TAG, " - Asking For GPS - ");
 		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 5, locationListener);
 	}
@@ -157,58 +174,9 @@ public class PlayActivity extends Activity {
 	public void onDestroy() {
 		super.onDestroy();
 		Log.v(TAG, " - Destroying Play Activity - ");
-		
-		// Stop GPS
-		locationManager.removeUpdates(locationListener);
-		
-		// Stop Audio
+		// Kill Pd
 		PdAudio.release();
 		PdBase.release();
 	}
-
-
-
-/* PLAYACTIVITY CLASS */
-class MyLocationListener implements LocationListener {
-
-  public MyLocationListener(Context context) {
-		super();
-  }
-
-  // Define all LocationListener methods
-  public void onLocationChanged(Location location) {
-    // Save new GPS data
-    currentLatitude  = (float)location.getLatitude();
-    currentLongitude = (float)location.getLongitude();
-    currentAltitude = (float)location.getAltitude();
-    currentAccuracy  = (float)location.getAccuracy();
-	currentSpeed = (float)location.getSpeed();
-	currentBearing = (float)location.getBearing();
-    currentProvider  = location.getProvider();
-    
-    // Log
-    Log.v(TAG, "Lat is " + currentLatitude);
-    Log.v(TAG, "Lon is " + currentLongitude);
-    
-    // Send To Pd
-    sendLat(currentLatitude);
-    sendLon(currentLongitude);
-  }
-
-  public void onProviderDisabled (String provider) { 
-    currentProvider = "";
-  }
-
-  public void onProviderEnabled (String provider) { 
-    currentProvider = provider;
-  }
-
-  public void onStatusChanged (String provider, int status, Bundle extras) {
-    // Nothing yet...
-  }
-  
-
-  
-} /* */
 
 } /*  */
