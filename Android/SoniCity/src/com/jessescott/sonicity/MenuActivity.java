@@ -23,11 +23,11 @@ public class MenuActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		// UI
-		setContentView(R.layout.activity_menu);
+		setContentView(R.layout.menu_layout);
 		Log.v(TAG, " - Starting The Menu Screen - ");
 		
 		// Buttons
-		Button about_button = (Button) findViewById(R.id.about_button);
+		about_button = (Button) findViewById(R.id.about_button);
 		about_button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -35,7 +35,7 @@ public class MenuActivity extends Activity {
 			}
 		});
 		
-		Button help_button = (Button) findViewById(R.id.help_button);
+		help_button = (Button) findViewById(R.id.help_button);
 		help_button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -43,7 +43,7 @@ public class MenuActivity extends Activity {
 			}
 		});
 		
-		Button settings_button = (Button) findViewById(R.id.settings_button);
+		settings_button = (Button) findViewById(R.id.settings_button);
 		settings_button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -51,7 +51,7 @@ public class MenuActivity extends Activity {
 			}
 		});
 		
-		Button start_button = (Button) findViewById(R.id.start_button);
+		start_button = (Button) findViewById(R.id.start_button);
 		start_button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

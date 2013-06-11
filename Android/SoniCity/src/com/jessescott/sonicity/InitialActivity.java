@@ -19,7 +19,7 @@ public class InitialActivity extends Activity {
 		Log.v(TAG, " - Starting The Initial Screen - ");
 		
 		// Load Layout
-		setContentView(R.layout.activity_initial);
+		setContentView(R.layout.initial_layout);
 		
 		// Thread
 		Thread timer = new Thread(){
