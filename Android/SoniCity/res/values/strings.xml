@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">SoniCity</string>
+    <string name="sub_title">a tool for the dérive</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
 
 </resources>

@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.Window;
 
 /* CLASS */
 public class InitialActivity extends Activity {
@@ -16,8 +17,10 @@ public class InitialActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_initial);
 		Log.v(TAG, " - Starting The Initial Screen - ");
+		
+		// Load Layout
+		setContentView(R.layout.activity_initial);
 		
 		// Thread
 		Thread timer = new Thread(){
