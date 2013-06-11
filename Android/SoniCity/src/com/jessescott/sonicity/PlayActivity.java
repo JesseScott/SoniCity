@@ -157,6 +157,11 @@ public class PlayActivity extends Activity {
 	public void onDestroy() {
 		super.onDestroy();
 		Log.v(TAG, " - Destroying Play Activity - ");
+		
+		// Stop GPS
+		locationManager.removeUpdates(locationListener);
+		
+		// Stop Audio
 		PdAudio.release();
 		PdBase.release();
 	}
