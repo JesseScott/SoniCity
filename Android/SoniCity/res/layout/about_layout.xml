@@ -1,15 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    tools:context=".AboutActivity" >
+
+    <!-- Quote -->
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textView_Quote"
+        style="@style/QuoteStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/about_btn"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/quote"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <!-- Reference -->
+
+    <TextView
+        android:id="@+id/textView_Credit"
+        style="@style/CreditStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView_Quote"
+        android:layout_marginTop="5dp"
+        android:text="@string/credit"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <!-- Author -->
+
+    <TextView
+        android:id="@+id/textView_Author"
+        style="@style/CreditStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView_Credit"
+        android:layout_marginTop="20dp"
+        android:text="@string/author"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <!-- Website -->
+
+    <TextView
+        android:id="@+id/textView_Website"
+        style="@style/CreditStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView_Author"
+        android:layout_marginTop="10dp"
+        android:text="@string/website"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <!-- Supporters -->
+
+    <TextView
+        android:id="@+id/textView_Supporters"
+        style="@style/CreditStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView_Website"
+        android:layout_marginTop="10dp"
+        android:text="@string/supporters"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>
