@@ -49,5 +49,27 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>      
     </style>
+    
+    <!-- About Screen -->
+    <style name="QuoteStyle">
+        <item name="android:padding">10dip</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textColor">#505050</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">fill_horizontal</item>      
+    </style>
+    
+    <style name="CreditStyle">
+        <item name="android:padding">10dip</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textColor">#505050</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">fill_horizontal</item>      
+    </style>
 
 </resources>

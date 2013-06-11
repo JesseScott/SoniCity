@@ -11,5 +11,15 @@
     <string name="help_btn">help</string>
     <string name="settings_btn">settings</string>
     <string name="play_btn">play</string>
+    
+    <!-- About Screen -->
+    <string name="quote">
+        \"The City becomes the dominant theme in political legends, but it is no longer a field of programmed and regulated operations. Beneath the discourses that ideologize the City, the ruses and combinations of powers that have no readable identity proliferate; without points where one can take hold of them, without rational transparency, they are impossible to administer.\"  
+    </string>
+    <string name="credit"> - Michel De Certeau, \n The Practice Of Everyday Life</string>
+    
+    <string name="author">A Project By Jesse Scott | the memelab</string>
+    <string name="website">jesses.co.tt | memelab.ca</string>
+    <string name="supporters">Made with the support of Mobile Muse, The Banff Centre for the Arts, Tramploline, and DAIMON</string>
 
 </resources>
