@@ -55,7 +55,9 @@ public class MenuActivity extends Activity {
 		start_button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent("android.intent.action.PLAY"));
+				Intent i = new Intent("android.intent.action.PLAY");
+				startActivity(i);
+				//startActivity(new Intent("android.intent.action.PLAY"));
 			}
 		});
 		
