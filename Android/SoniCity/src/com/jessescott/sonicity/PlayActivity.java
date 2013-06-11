@@ -6,18 +6,13 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
-import android.net.Uri;
-import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.location.Location;
 import android.location.LocationManager;
-import android.location.LocationListener;
-
+import android.os.Bundle;
 
 import org.puredata.android.io.AudioParameters;
 import org.puredata.android.io.PdAudio;
@@ -71,18 +66,6 @@ public class PlayActivity extends Activity {
 		PdBase.openPatch(patchFile.getAbsolutePath());
 	}
 	
-	/* SEND DATA */
-
-	private void sendLat(float n) {
-		PdBase.sendFloat("LAT", n);
-		PdBase.sendBang("trigger");
-	}
-	
-	private void sendLon(float n) {
-		PdBase.sendFloat("LON", n);
-		PdBase.sendBang("trigger");
-	}
-	
 	/* PHONE */
 	
 	private void initSystemServices() {
@@ -102,9 +85,6 @@ public class PlayActivity extends Activity {
 	
 	/* UI */
 
-	
-	/* LIFECYCLE */
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -150,6 +130,8 @@ public class PlayActivity extends Activity {
 		
 	}
 	
+	/* LIFECYCLE */
+	
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -165,6 +147,7 @@ public class PlayActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		Log.v(TAG, " - Entering The Play Screen - ");
+		
 		// GPS
 		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 5, locationListener);
@@ -174,6 +157,7 @@ public class PlayActivity extends Activity {
 	public void onDestroy() {
 		super.onDestroy();
 		Log.v(TAG, " - Destroying Play Activity - ");
+		
 		// Kill Pd
 		PdAudio.release();
 		PdBase.release();

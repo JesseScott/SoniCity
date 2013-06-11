@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 /* PLAYACTIVITY CLASS */
-class MyLocationListener implements LocationListener {
+public class MyLocationListener implements LocationListener {
 
   // GLOBALS
   private static final String TAG = "SoniCity";
