@@ -118,6 +118,17 @@ public class PlayActivity extends Activity {
 		}
 	}
 	
+	// Send Data
+	private void sendLatToPd(int n) {
+		PdBase.sendFloat("LAT", n);
+		PdBase.sendBang("trigger");
+	}
+	
+	private void sendLonToPd(int n) {
+		PdBase.sendFloat("LON", n);
+		PdBase.sendBang("trigger");
+	}
+	
 	/* PHONE */
 	
 	private void initSystemServices() {
@@ -148,7 +159,9 @@ public class PlayActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Log.v(TAG, "Asking For New Latitude");
-				ActualLatitude.setText(locationListener.getCurrentLatitude());	
+				ActualLatitude.setText(locationListener.getCurrentLatitude());
+				int lat = Integer.parseInt(locationListener.getCurrentLatitude());
+				sendLatToPd(lat);
 			}
 		});
 		
@@ -157,7 +170,9 @@ public class PlayActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Log.v(TAG, "Asking For New Latitude");
-				ActualLongitude.setText(locationListener.getCurrentLongitude());	
+				ActualLongitude.setText(locationListener.getCurrentLongitude());
+				int lon = Integer.parseInt(locationListener.getCurrentLongitude());
+				sendLonToPd(lon);
 			}
 		});
 	}
