@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+
 /* CLASS */
 public class MenuActivity extends Activity {
 
@@ -58,7 +59,7 @@ public class MenuActivity extends Activity {
 		start_button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Log.v(TAG, "Clicked The About Button");
+				Log.v(TAG, "Clicked The Play Button");
 				startActivity(new Intent("android.intent.action.PLAY"));
 			}
 		});
