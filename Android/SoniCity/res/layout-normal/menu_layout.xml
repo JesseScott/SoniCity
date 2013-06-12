@@ -13,7 +13,7 @@
 
     <Button
         android:id="@+id/about_button"
-        style="@style/ButtonStyle"
+        style="@style/MenuStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/help_button"
@@ -27,7 +27,7 @@
     
     <Button
         android:id="@+id/help_button"
-        style="@style/ButtonStyle"
+        style="@style/MenuStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/about_button"
@@ -40,7 +40,7 @@
 
     <Button
         android:id="@+id/settings_button"
-        style="@style/ButtonStyle"
+        style="@style/MenuStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/help_button"
@@ -53,7 +53,7 @@
 
     <Button
         android:id="@+id/start_button"
-        style="@style/ButtonStyle"
+        style="@style/MenuStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/settings_button"

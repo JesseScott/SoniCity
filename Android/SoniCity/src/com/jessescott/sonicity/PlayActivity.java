@@ -136,9 +136,11 @@ public class PlayActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		Log.v(TAG, " - Exiting From The Play Screen - ");
+		
 		// Stop GPS
 		locationManager.removeUpdates(locationListener);
 		locationManager = null;
+		
 		// Stop Pd
 		PdAudio.stopAudio();
 	}
@@ -150,7 +152,10 @@ public class PlayActivity extends Activity {
 		
 		// GPS
 		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 5, locationListener);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, locationListener);
+		
+		// Start Pd
+		PdAudio.startAudio(this);
 	}
 	
 	@Override
