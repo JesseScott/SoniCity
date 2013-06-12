@@ -113,6 +113,9 @@
             </intent-filter>
         </activity>
         
+        <!-- SERVICES  -->
+        <service android:name="org.puredata.android.service.PdService" />
+        
     </application>  
 
 </manifest>
