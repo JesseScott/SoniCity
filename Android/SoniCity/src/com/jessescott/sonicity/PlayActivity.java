@@ -119,14 +119,12 @@ public class PlayActivity extends Activity {
 	}
 	
 	// Send Data
-	private void sendLatToPd(int n) {
+	private void sendLatToPd(float n) {
 		PdBase.sendFloat("LAT", n);
-		PdBase.sendBang("trigger");
 	}
 	
-	private void sendLonToPd(int n) {
+	private void sendLonToPd(float n) {
 		PdBase.sendFloat("LON", n);
-		PdBase.sendBang("trigger");
 	}
 	
 	/* PHONE */
@@ -160,7 +158,7 @@ public class PlayActivity extends Activity {
 			public void onClick(View v) {
 				Log.v(TAG, "Asking For New Latitude");
 				ActualLatitude.setText(locationListener.getCurrentLatitude());
-				int lat = Integer.parseInt(locationListener.getCurrentLatitude());
+				float lat = Float.parseFloat(locationListener.getCurrentLatitude());
 				sendLatToPd(lat);
 			}
 		});
@@ -169,9 +167,9 @@ public class PlayActivity extends Activity {
 		ActualLongitude.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Log.v(TAG, "Asking For New Latitude");
+				Log.v(TAG, "Asking For New Longitude");
 				ActualLongitude.setText(locationListener.getCurrentLongitude());
-				int lon = Integer.parseInt(locationListener.getCurrentLongitude());
+				float lon = Float.parseFloat(locationListener.getCurrentLongitude());
 				sendLonToPd(lon);
 			}
 		});
