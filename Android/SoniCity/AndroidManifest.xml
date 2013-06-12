@@ -11,6 +11,14 @@
         android:targetSdkVersion="17" 
     />
     
+    <!-- SCREEN SIZES  -->
+    <supports-screens
+    	android:largeScreens="true"
+   		android:normalScreens="true"
+   		android:smallScreens="true"
+   		android:anyDensity="true" 
+    />
+    
     <!-- PERMISSIONS USED  -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
