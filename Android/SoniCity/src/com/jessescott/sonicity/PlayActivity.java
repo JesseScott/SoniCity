@@ -40,8 +40,8 @@ public class PlayActivity extends Activity {
 	MyLocationListener locationListener;
 	Handler handler;
 	
-	TextView latitude, longitude;
-	TextView ActualLatitude, ActualLongitude;
+	TextView latitude, longitude, altitude, speed, accuracy;
+	TextView ActualLatitude, ActualLongitude, ActualAltitude, ActualSpeed, ActualAccuracy;
 	
 	float currentLatitude  	= 0;
 	float currentLongitude 	= 0;
@@ -128,6 +128,18 @@ public class PlayActivity extends Activity {
 	private void sendLonToPd(float n) {
 		PdBase.sendFloat("LON", n);
 	}
+
+	private void sendAltToPd(float n) {
+		PdBase.sendFloat("ALT", n);
+	}
+	
+	private void sendSpdToPd(float n) {
+		PdBase.sendFloat("SPD", n);
+	}
+	
+	private void sendAccToPd(float n) {
+		PdBase.sendFloat("ACC", n);
+	}
 	
 	/* PHONE */
 	
@@ -175,9 +187,41 @@ public class PlayActivity extends Activity {
 				sendLonToPd(lon);
 			}
 		});
+		
+		ActualAltitude = (TextView) findViewById(R.id.ActualAlt);
+		ActualAltitude.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.v(TAG, "Asking For New Altitude");
+				ActualAltitude.setText(locationListener.getCurrentAltitude());
+				float alt = Float.parseFloat(locationListener.getCurrentAltitude());
+				sendAltToPd(alt);
+			}
+		});
+		
+		ActualSpeed = (TextView) findViewById(R.id.ActualSpd);
+		ActualSpeed.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.v(TAG, "Asking For New Speed");
+				ActualSpeed.setText(locationListener.getCurrentSpeed());
+				float spd = Float.parseFloat(locationListener.getCurrentSpeed());
+				sendSpdToPd(spd);
+			}
+		});
+		
+		ActualAccuracy = (TextView) findViewById(R.id.ActualAcc);
+		ActualAccuracy.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.v(TAG, "Asking For New Accuracy");
+				ActualAccuracy.setText(locationListener.getCurrentAccuracy());
+				float acc = Float.parseFloat(locationListener.getCurrentAccuracy());
+				sendAccToPd(acc);
+			}
+		});
+		
 	}
-	
-
 	
 	
 	/* LIFECYCLE */
@@ -201,7 +245,6 @@ public class PlayActivity extends Activity {
 		
 		// Runnable
 		handler = new Handler();
-		
 		final Runnable r = new Runnable() {
 			public void run() {
 				//Log.v(TAG, "run");
