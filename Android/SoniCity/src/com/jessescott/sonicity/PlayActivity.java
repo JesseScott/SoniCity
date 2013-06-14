@@ -204,7 +204,7 @@ public class PlayActivity extends Activity {
 		
 		final Runnable r = new Runnable() {
 			public void run() {
-				Log.v(TAG, "run");
+				//Log.v(TAG, "run");
 				handler.postDelayed(this, 2000);
 			}
 		};
