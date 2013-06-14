@@ -16,6 +16,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 
 import org.puredata.android.io.AudioParameters;
@@ -37,6 +38,7 @@ public class PlayActivity extends Activity {
 	
 	LocationManager locationManager;
 	MyLocationListener locationListener;
+	Handler handler;
 	
 	TextView latitude, longitude;
 	TextView ActualLatitude, ActualLongitude;
@@ -175,8 +177,8 @@ public class PlayActivity extends Activity {
 		});
 	}
 	
-	
 
+	
 	
 	/* LIFECYCLE */
 	
@@ -196,6 +198,18 @@ public class PlayActivity extends Activity {
 		
 		// PD Service
 		bindService(new Intent(this, PdService.class), pdConnection, BIND_AUTO_CREATE);
+		
+		// Runnable
+		handler = new Handler();
+		
+		final Runnable r = new Runnable() {
+			public void run() {
+				Log.v(TAG, "run");
+				handler.postDelayed(this, 2000);
+			}
+		};
+		handler.postDelayed(r, 2000);
+		
 	}
 	
 	@Override
