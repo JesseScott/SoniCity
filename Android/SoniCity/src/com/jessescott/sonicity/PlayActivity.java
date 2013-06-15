@@ -178,7 +178,10 @@ public class PlayActivity extends Activity {
 		float rem = val - hour;
 		DecimalFormat df = new DecimalFormat("##.######");
 		String min = df.format(rem);
-		String mm = min.substring(2, 4);
+		String mm = "";
+		if(min.length() >= 4) {
+			mm = min.substring(2, 4);
+		}
 		int minute = Integer.parseInt(mm);
 		Log.v(TAG, "The Minute is " + minute);
 		return minute;
@@ -190,7 +193,10 @@ public class PlayActivity extends Activity {
 		float rem = val - hour;
 		DecimalFormat df = new DecimalFormat("##.######");
 		String min = df.format(rem);
-		String mm = min.substring(4, 8);
+		String mm = "";
+		if(min.length() >= 4) {
+			mm = min.substring(4, 8);
+		}
 		int second = Integer.parseInt(mm);
 		Log.v(TAG, "The Second is " + second);
 		return second;
