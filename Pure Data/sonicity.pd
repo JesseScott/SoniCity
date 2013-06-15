@@ -1,7 +1,7 @@
-#N canvas 568 22 756 541 10;
+#N canvas 1036 77 756 541 10;
 #X obj 41 -459 cnv 15 100 100 empty empty empty 20 12 0 14 -228856
 -66577 0;
-#N canvas 74 645 460 328 receive 0;
+#N canvas 42 278 460 328 receive 1;
 #X obj 23 41 cnv 15 400 250 empty empty empty 20 12 0 14 -162280 -66577
 0;
 #X floatatom 59 77 5 0 0 0 - - -;
@@ -13,42 +13,24 @@
 #X floatatom 179 77 5 0 0 0 - - -;
 #X floatatom 180 154 5 0 0 0 - - -;
 #X floatatom 179 230 5 0 0 0 - - -;
-#X obj 59 104 s parseLatH;
-#X obj 60 181 s parseLatM;
-#X obj 59 257 s parseLatS;
-#X obj 179 257 s parseLonS;
 #X obj 179 205 r LONs;
-#X obj 180 181 s parseLonM;
 #X obj 180 129 r LONm;
-#X obj 179 104 s parseLatH;
 #X floatatom 293 77 5 0 0 0 - - -;
 #X floatatom 294 154 5 0 0 0 - - -;
 #X floatatom 293 230 5 0 0 0 - - -;
 #X obj 293 52 r ALT;
 #X obj 294 129 r SPD;
 #X obj 293 205 r ACC;
-#X obj 293 257 s parseAcc;
-#X obj 294 181 s parseSpd;
-#X obj 293 104 s parseAlt;
 #X obj 179 52 r LONh;
-#X connect 1 0 10 0;
-#X connect 2 0 11 0;
 #X connect 3 0 2 0;
 #X connect 4 0 1 0;
-#X connect 5 0 12 0;
 #X connect 6 0 5 0;
-#X connect 7 0 17 0;
-#X connect 8 0 15 0;
-#X connect 9 0 13 0;
-#X connect 14 0 9 0;
-#X connect 16 0 8 0;
-#X connect 18 0 26 0;
-#X connect 19 0 25 0;
-#X connect 20 0 24 0;
-#X connect 21 0 18 0;
-#X connect 22 0 19 0;
-#X connect 23 0 20 0;
-#X connect 27 0 7 0;
+#X connect 10 0 9 0;
+#X connect 11 0 8 0;
+#X connect 15 0 12 0;
+#X connect 16 0 13 0;
+#X connect 17 0 14 0;
+#X connect 18 0 7 0;
 #X restore 60 -416 pd receive;
 #X obj 41 -344 cnv 15 100 100 empty empty empty 20 12 0 14 -228856
 -66577 0;
@@ -118,11 +100,11 @@
 #X obj 543 618 cnv 15 100 70 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 562 645 hsl 45 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 220 1;
+-1 -1 0 1;
 #X obj 195 631 cnv 15 100 70 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 215 660 hsl 45 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 220 1;
+-1 -1 0 1;
 #X text 49 119 WRITE TABLE #1;
 #X text 49 252 WRITE TABLE #2;
 #X obj 254 236 cnv 15 140 140 empty empty empty 20 12 0 14 -233017
@@ -251,8 +233,8 @@
 #X obj 816 483 r SPD;
 #X obj 377 474 r LATs;
 #X obj 730 464 r LONs;
-#X text 220 702;
-#X text 554 678;
+#X text 220 702 comment;
+#X text 554 678 comment;
 #X obj 194 715 cnv 15 100 70 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 212 753 s~ oscLat;
@@ -260,7 +242,7 @@
 #X obj 541 700 cnv 15 100 70 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 559 715 clip~ -1 1;
-#X text 567 687;
+#X text 567 687 comment;
 #X obj 559 738 s~ oscLon;
 #X obj 212 606 r ACC;
 #X obj 559 596 r ACC;
