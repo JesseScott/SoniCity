@@ -69,4 +69,20 @@ public class MyLocationListener implements LocationListener {
 	  return lon;
   }
   
+  public String getCurrentAltitude() {
+	  String alt = Float.toString(currentAltitude);
+	  return alt;
+  }
+  
+  public String getCurrentAccuracy() {
+	  String acc = Float.toString(currentAccuracy);
+	  return acc;
+  }
+  
+  public String getCurrentSpeed() {
+	  String spd = Float.toString(currentSpeed);
+	  return spd;
+  }
+  
+  
 } /* */

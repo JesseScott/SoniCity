@@ -3,7 +3,10 @@ package com.jessescott.sonicity;
 /* IMPORTS */
 import java.io.File;
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -16,6 +19,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 
 import org.puredata.android.io.AudioParameters;
@@ -37,9 +41,10 @@ public class PlayActivity extends Activity {
 	
 	LocationManager locationManager;
 	MyLocationListener locationListener;
+	Handler handler;
 	
-	TextView latitude, longitude;
-	TextView ActualLatitude, ActualLongitude;
+	TextView latitude, longitude, altitude, speed, accuracy;
+	TextView ActualLatitude, ActualLongitude, ActualAltitude, ActualSpeed, ActualAccuracy;
 	
 	float currentLatitude  	= 0;
 	float currentLongitude 	= 0;
@@ -120,11 +125,73 @@ public class PlayActivity extends Activity {
 	
 	// Send Data
 	private void sendLatToPd(float n) {
-		PdBase.sendFloat("LAT", n);
+		n  = Math.abs(n);
+		// Hour
+		int hour = parseHour(n);
+		PdBase.sendFloat("LATh", hour);
+		// Minute
+		int minute = parseMinute(n);
+		PdBase.sendFloat("LATm", minute);
+		// Second
+		int second = parseSecond(n);
+		PdBase.sendFloat("LATs", second);
 	}
 	
 	private void sendLonToPd(float n) {
-		PdBase.sendFloat("LON", n);
+		n  = Math.abs(n);
+		// Hour
+		int hour = parseHour(n);
+		PdBase.sendFloat("LONh", hour);
+		// Minute
+		int minute = parseMinute(n);
+		PdBase.sendFloat("LONm", minute);
+		// Second
+		int second = parseSecond(n);
+		PdBase.sendFloat("LONs", second);
+	}
+
+	private void sendAltToPd(float n) {
+		PdBase.sendFloat("ALT", n);
+	}
+	
+	private void sendSpdToPd(float n) {
+		PdBase.sendFloat("SPD", n);
+	}
+	
+	private void sendAccToPd(float n) {
+		PdBase.sendFloat("ACC", n);
+	}
+	
+	// Parse Data
+	private int parseHour(float val) {
+		int hour = (int)val;
+		hour = Math.abs(hour);
+		Log.v(TAG, "The Hour is " + hour);
+		return hour;
+	}
+	
+	private int parseMinute(float val) {
+		int hour = (int)val;
+		hour = Math.abs(hour);
+		float rem = val - hour;
+		DecimalFormat df = new DecimalFormat("##.######");
+		String min = df.format(rem);
+		String mm = min.substring(2, 4);
+		int minute = Integer.parseInt(mm);
+		Log.v(TAG, "The Minute is " + minute);
+		return minute;
+	}
+	
+	private int parseSecond(float val) {
+		int hour = (int)val;
+		hour = Math.abs(hour);
+		float rem = val - hour;
+		DecimalFormat df = new DecimalFormat("##.######");
+		String min = df.format(rem);
+		String mm = min.substring(4, 8);
+		int second = Integer.parseInt(mm);
+		Log.v(TAG, "The Second is " + second);
+		return second;
 	}
 	
 	/* PHONE */
@@ -173,10 +240,42 @@ public class PlayActivity extends Activity {
 				sendLonToPd(lon);
 			}
 		});
+		
+		ActualAltitude = (TextView) findViewById(R.id.ActualAlt);
+		ActualAltitude.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.v(TAG, "Asking For New Altitude");
+				ActualAltitude.setText(locationListener.getCurrentAltitude());
+				float alt = Float.parseFloat(locationListener.getCurrentAltitude());
+				sendAltToPd(alt);
+			}
+		});
+		
+		ActualSpeed = (TextView) findViewById(R.id.ActualSpd);
+		ActualSpeed.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.v(TAG, "Asking For New Speed");
+				ActualSpeed.setText(locationListener.getCurrentSpeed());
+				float spd = Float.parseFloat(locationListener.getCurrentSpeed());
+				sendSpdToPd(spd);
+			}
+		});
+		
+		ActualAccuracy = (TextView) findViewById(R.id.ActualAcc);
+		ActualAccuracy.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.v(TAG, "Asking For New Accuracy");
+				ActualAccuracy.setText(locationListener.getCurrentAccuracy());
+				float acc = Float.parseFloat(locationListener.getCurrentAccuracy());
+				sendAccToPd(acc);
+			}
+		});
+		
 	}
 	
-	
-
 	
 	/* LIFECYCLE */
 	
@@ -196,6 +295,17 @@ public class PlayActivity extends Activity {
 		
 		// PD Service
 		bindService(new Intent(this, PdService.class), pdConnection, BIND_AUTO_CREATE);
+		
+		// Runnable
+		handler = new Handler();
+		final Runnable r = new Runnable() {
+			public void run() {
+				//Log.v(TAG, "run");
+				handler.postDelayed(this, 2000);
+			}
+		};
+		handler.postDelayed(r, 2000);
+		
 	}
 	
 	@Override
