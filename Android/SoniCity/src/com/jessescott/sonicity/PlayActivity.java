@@ -3,7 +3,10 @@ package com.jessescott.sonicity;
 /* IMPORTS */
 import java.io.File;
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -122,11 +125,29 @@ public class PlayActivity extends Activity {
 	
 	// Send Data
 	private void sendLatToPd(float n) {
-		PdBase.sendFloat("LAT", n);
+		n  = Math.abs(n);
+		// Hour
+		int hour = parseHour(n);
+		PdBase.sendFloat("LATh", hour);
+		// Minute
+		int minute = parseMinute(n);
+		PdBase.sendFloat("LATm", minute);
+		// Second
+		int second = parseSecond(n);
+		PdBase.sendFloat("LATs", second);
 	}
 	
 	private void sendLonToPd(float n) {
-		PdBase.sendFloat("LON", n);
+		n  = Math.abs(n);
+		// Hour
+		int hour = parseHour(n);
+		PdBase.sendFloat("LONh", hour);
+		// Minute
+		int minute = parseMinute(n);
+		PdBase.sendFloat("LONm", minute);
+		// Second
+		int second = parseSecond(n);
+		PdBase.sendFloat("LONs", second);
 	}
 
 	private void sendAltToPd(float n) {
@@ -139,6 +160,38 @@ public class PlayActivity extends Activity {
 	
 	private void sendAccToPd(float n) {
 		PdBase.sendFloat("ACC", n);
+	}
+	
+	// Parse Data
+	private int parseHour(float val) {
+		int hour = (int)val;
+		hour = Math.abs(hour);
+		Log.v(TAG, "The Hour is " + hour);
+		return hour;
+	}
+	
+	private int parseMinute(float val) {
+		int hour = (int)val;
+		hour = Math.abs(hour);
+		float rem = val - hour;
+		DecimalFormat df = new DecimalFormat("##.######");
+		String min = df.format(rem);
+		String mm = min.substring(2, 4);
+		int minute = Integer.parseInt(mm);
+		Log.v(TAG, "The Minute is " + minute);
+		return minute;
+	}
+	
+	private int parseSecond(float val) {
+		int hour = (int)val;
+		hour = Math.abs(hour);
+		float rem = val - hour;
+		DecimalFormat df = new DecimalFormat("##.######");
+		String min = df.format(rem);
+		String mm = min.substring(4, 8);
+		int second = Integer.parseInt(mm);
+		Log.v(TAG, "The Second is " + second);
+		return second;
 	}
 	
 	/* PHONE */
