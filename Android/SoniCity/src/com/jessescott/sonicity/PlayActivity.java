@@ -35,6 +35,7 @@ public class PlayActivity extends Activity {
 	
 	// GLOBALS
 	private static final String TAG = "SoniCity";
+	private static final int REFRESH_RATE = 5000;
 	
 	private PdUiDispatcher dispatcher;
 	private PdService pdService = null;
@@ -60,16 +61,16 @@ public class PlayActivity extends Activity {
 	private final ServiceConnection pdConnection = new ServiceConnection() {
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
-			pdService = ((PdService.PdBinder)service).getService();
-			try {
-				Log.e(TAG, "Starting Pd Service ");
-				initPd();
-				loadPatch();
-			}
-			catch(IOException e) {
-				Log.e(TAG, e.toString());
-				finish();
-			}
+				pdService = ((PdService.PdBinder)service).getService();
+				try {
+					Log.e(TAG, "Starting Pd Service ");
+					initPd();
+					loadPatch();
+				}
+				catch(IOException e) {
+					Log.e(TAG, e.toString());
+					finish();
+				}
 		}
 
 		@Override
@@ -84,6 +85,7 @@ public class PlayActivity extends Activity {
 		
 		// Audio Settings
 		AudioParameters.init(this);
+		Log.v(TAG, "Does This Device Support Low Latency? " + AudioParameters.supportsLowLatency());
 		int sampleRate = AudioParameters.suggestSampleRate();
 		pdService.initAudio(sampleRate, 0, 2, 10.0f);
 		start();
@@ -98,7 +100,7 @@ public class PlayActivity extends Activity {
 	private void start() {
 		Log.e(TAG, "Starting PD ");
 		if (!pdService.isRunning()) {
-			Log.e(TAG, "here ");
+			Log.e(TAG, "Starting Audio ");
 			Intent intent = new Intent(PlayActivity.this, PlayActivity.class);
 			pdService.startAudio(intent, R.drawable.icon, "SoniCity", "Return to SoniCity.");
 		}
@@ -301,10 +303,25 @@ public class PlayActivity extends Activity {
 		final Runnable r = new Runnable() {
 			public void run() {
 				//Log.v(TAG, "run");
-				handler.postDelayed(this, 2000);
+				handler.postDelayed(this, REFRESH_RATE);
+				
+				// Get Data
+				float lat = Float.parseFloat(locationListener.getCurrentLatitude());
+				float lon = Float.parseFloat(locationListener.getCurrentLongitude());
+				float alt = Float.parseFloat(locationListener.getCurrentAltitude());
+				float spd = Float.parseFloat(locationListener.getCurrentSpeed());
+				float acc = Float.parseFloat(locationListener.getCurrentAccuracy());
+				
+				// Send Data
+				sendLatToPd(lat);
+				sendLonToPd(lon);
+				sendAltToPd(alt);
+				sendSpdToPd(spd);
+				sendAccToPd(acc);
+				
 			}
 		};
-		handler.postDelayed(r, 2000);
+		handler.postDelayed(r, REFRESH_RATE);
 		
 	}
 	
@@ -316,9 +333,7 @@ public class PlayActivity extends Activity {
 		// Stop GPS
 		locationManager.removeUpdates(locationListener);
 		locationManager = null;
-		
-		// Stop Pd
-		//PdAudio.stopAudio();
+
 	}
 
 	@Override
@@ -328,10 +343,8 @@ public class PlayActivity extends Activity {
 		
 		// GPS
 		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, locationListener);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, REFRESH_RATE, 5, locationListener);
 		
-		// Start Pd
-		//PdAudio.startAudio(this);
 	}
 	
 	@Override
@@ -341,8 +354,7 @@ public class PlayActivity extends Activity {
 		
 		// Kill Pd
 		cleanupPd();
-		//PdAudio.release();
-		//PdBase.release();
+
 	}
 
 } /*  */
