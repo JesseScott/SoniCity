@@ -4,6 +4,7 @@ package com.jessescott.sonicity;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -35,6 +36,9 @@ public class PlayActivity extends Activity {
 	// GLOBALS
 	private static final String TAG = "SoniCity";
 	private static final int REFRESH_RATE = 5000;
+	
+	public Runnable runnable;
+	Date date;
 	
 	private PdUiDispatcher dispatcher;
 	private PdService pdService = null;
@@ -167,7 +171,7 @@ public class PlayActivity extends Activity {
 	private int parseHour(float val) {
 		int hour = (int)val;
 		hour = Math.abs(hour);
-		Log.v(TAG, "The Hour is " + hour);
+		//Log.v(TAG, "The Hour is " + hour);
 		return hour;
 	}
 	
@@ -182,7 +186,7 @@ public class PlayActivity extends Activity {
 			mm = min.substring(2, 4);
 		}
 		int minute = Integer.parseInt(mm);
-		Log.v(TAG, "The Minute is " + minute);
+		//Log.v(TAG, "The Minute is " + minute);
 		return minute;
 	}
 	
@@ -197,7 +201,7 @@ public class PlayActivity extends Activity {
 			mm = min.substring(4, 8);
 		}
 		int second = Integer.parseInt(mm);
-		Log.v(TAG, "The Second is " + second);
+		//Log.v(TAG, "The Second is " + second);
 		return second;
 	}
 	
@@ -311,14 +315,18 @@ public class PlayActivity extends Activity {
 		// PD Service
 		bindService(new Intent(this, PdService.class), pdConnection, BIND_AUTO_CREATE);
 		
+		// Date
+		date = new Date();
+				
 		// Runnable
 		handler = new Handler();
-		final Runnable r = new Runnable() {
+		runnable = new Runnable() {
 			public void run() {
 				//Log.v(TAG, "run");
 				handler.postDelayed(this, REFRESH_RATE);
 				
 				// Get Data
+				Log.v(TAG, "runnable getting data");
 				float lat = Float.parseFloat(locationListener.getCurrentLatitude());
 				float lon = Float.parseFloat(locationListener.getCurrentLongitude());
 				float alt = Float.parseFloat(locationListener.getCurrentAltitude());
@@ -326,6 +334,7 @@ public class PlayActivity extends Activity {
 				float acc = Float.parseFloat(locationListener.getCurrentAccuracy());
 				
 				// Send Data
+				Log.v(TAG, "runnable sending data");
 				sendLatToPd(lat);
 				sendLonToPd(lon);
 				sendAltToPd(alt);
@@ -333,15 +342,17 @@ public class PlayActivity extends Activity {
 				sendAccToPd(acc);
 				
 				// Update Text
+				Log.v(TAG, "runnable updating text");
 				ActualLatitude.setText(locationListener.getCurrentLatitude());
 				ActualLongitude.setText(locationListener.getCurrentLongitude());
 				ActualAltitude.setText(locationListener.getCurrentAltitude());
 				ActualSpeed.setText(locationListener.getCurrentSpeed());
 				ActualAccuracy.setText(locationListener.getCurrentAccuracy());
 				
+				Log.v(TAG, "runnable running at " + date.getTime());
 			}
 		};
-		handler.postDelayed(r, REFRESH_RATE);
+		handler.postDelayed(runnable, REFRESH_RATE);
 		
 	}
 	
@@ -381,6 +392,9 @@ public class PlayActivity extends Activity {
 	public void onDestroy() {
 		super.onDestroy();
 		Log.v(TAG, " - Destroying Play Activity - ");
+		
+		// Kill Runnable
+		handler.removeCallbacks(runnable);
 		
 		// Kill Pd
 		cleanupPd();
