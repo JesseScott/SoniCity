@@ -3,10 +3,8 @@ package com.jessescott.sonicity;
 /* IMPORTS */
 import java.io.File;
 import java.io.IOException;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -23,11 +21,12 @@ import android.os.Handler;
 import android.os.IBinder;
 
 import org.puredata.android.io.AudioParameters;
-import org.puredata.android.io.PdAudio;
 import org.puredata.android.service.PdService;
 import org.puredata.android.utils.PdUiDispatcher;
 import org.puredata.core.PdBase;
 import org.puredata.core.utils.IoUtils;
+
+import processing.core.*;
 
 
 /* PLAYACTIVITY CLASS */
@@ -178,7 +177,7 @@ public class PlayActivity extends Activity {
 		float rem = val - hour;
 		DecimalFormat df = new DecimalFormat("##.######");
 		String min = df.format(rem);
-		String mm = "";
+		String mm = "0";
 		if(min.length() >= 4) {
 			mm = min.substring(2, 4);
 		}
@@ -193,7 +192,7 @@ public class PlayActivity extends Activity {
 		float rem = val - hour;
 		DecimalFormat df = new DecimalFormat("##.######");
 		String min = df.format(rem);
-		String mm = "";
+		String mm = "0";
 		if(min.length() >= 4) {
 			mm = min.substring(4, 8);
 		}
@@ -290,6 +289,14 @@ public class PlayActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if(savedInstanceState != null) {
+			Log.v(TAG, " - There's An Existing State - ");
+		}
+		else {
+			Log.v(TAG, " - Brand New State - ");
+		}
+		
+		
 		Log.v(TAG, " - Starting The Play Screen - ");
 		
 		// UI
@@ -325,10 +332,27 @@ public class PlayActivity extends Activity {
 				sendSpdToPd(spd);
 				sendAccToPd(acc);
 				
+				// Update Text
+				ActualLatitude.setText(locationListener.getCurrentLatitude());
+				ActualLongitude.setText(locationListener.getCurrentLongitude());
+				ActualAltitude.setText(locationListener.getCurrentAltitude());
+				ActualSpeed.setText(locationListener.getCurrentSpeed());
+				ActualAccuracy.setText(locationListener.getCurrentAccuracy());
+				
 			}
 		};
 		handler.postDelayed(r, REFRESH_RATE);
 		
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		Log.v(TAG, " - Saving The State - ");
+	    // Save data
+
+	    
+	    // Always call the superclass so it can save the view hierarchy state
+	    super.onSaveInstanceState(savedInstanceState);
 	}
 	
 	@Override
