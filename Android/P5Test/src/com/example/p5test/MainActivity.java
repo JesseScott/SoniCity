@@ -1,8 +1,6 @@
 package com.example.p5test;
 
-import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
+
 import processing.core.*;
 
 public class MainActivity extends PApplet {
