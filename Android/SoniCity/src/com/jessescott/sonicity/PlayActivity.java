@@ -4,6 +4,7 @@ package com.jessescott.sonicity;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.app.Activity;
@@ -38,6 +39,7 @@ public class PlayActivity extends Activity {
 	private static final int REFRESH_RATE = 5000;
 	
 	public Runnable runnable;
+	SimpleDateFormat format;
 	Date date;
 	
 	private PdUiDispatcher dispatcher;
@@ -198,7 +200,7 @@ public class PlayActivity extends Activity {
 		String min = df.format(rem);
 		String mm = "0";
 		if(min.length() >= 4) {
-			mm = min.substring(4, 8);
+			mm = min.substring(4, min.length());
 		}
 		int second = Integer.parseInt(mm);
 		//Log.v(TAG, "The Second is " + second);
@@ -287,6 +289,12 @@ public class PlayActivity extends Activity {
 		
 	}
 	
+	public Date getTime() {
+		format = new SimpleDateFormat("HH:MM:SS");
+		date = new Date();
+		return date;
+	}
+	
 	
 	/* LIFECYCLE */
 	
@@ -299,8 +307,6 @@ public class PlayActivity extends Activity {
 		else {
 			Log.v(TAG, " - Brand New State - ");
 		}
-		
-		
 		Log.v(TAG, " - Starting The Play Screen - ");
 		
 		// UI
@@ -314,9 +320,6 @@ public class PlayActivity extends Activity {
 		
 		// PD Service
 		bindService(new Intent(this, PdService.class), pdConnection, BIND_AUTO_CREATE);
-		
-		// Date
-		date = new Date();
 				
 		// Runnable
 		handler = new Handler();
@@ -349,7 +352,7 @@ public class PlayActivity extends Activity {
 				ActualSpeed.setText(locationListener.getCurrentSpeed());
 				ActualAccuracy.setText(locationListener.getCurrentAccuracy());
 				
-				Log.v(TAG, "runnable running at " + date.getTime());
+				Log.v(TAG, "runnable running at " + getTime());
 			}
 		};
 		handler.postDelayed(runnable, REFRESH_RATE);
