@@ -1,8 +1,5 @@
 package com.jessescott.sonicity;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.util.Log;
 import processing.core.*;
 
 public class SettingsActivity extends PApplet {

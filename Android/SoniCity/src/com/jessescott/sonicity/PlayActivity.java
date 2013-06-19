@@ -28,7 +28,7 @@ import org.puredata.android.utils.PdUiDispatcher;
 import org.puredata.core.PdBase;
 import org.puredata.core.utils.IoUtils;
 
-import processing.core.*;
+//import processing.core.*;
 
 
 /* PLAYACTIVITY CLASS */
