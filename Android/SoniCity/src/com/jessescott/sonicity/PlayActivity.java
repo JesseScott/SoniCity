@@ -373,10 +373,6 @@ public class PlayActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		Log.v(TAG, " - Exiting From The Play Screen - ");
-		
-		// Stop GPS
-		locationManager.removeUpdates(locationListener);
-		locationManager = null;
 
 	}
 
@@ -388,7 +384,7 @@ public class PlayActivity extends Activity {
 		// GPS
 		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, REFRESH_RATE, 5, locationListener);
-		
+		locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 	}
 	
 	@Override
@@ -401,6 +397,10 @@ public class PlayActivity extends Activity {
 		
 		// Kill Pd
 		cleanupPd();
+		
+		// Stop GPS
+		locationManager.removeUpdates(locationListener);
+		locationManager = null;
 
 	}
 
