@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -289,6 +290,7 @@ public class PlayActivity extends Activity {
 		
 	}
 	
+	@SuppressLint("SimpleDateFormat")
 	public Date getTime() {
 		format = new SimpleDateFormat("HH:MM:SS");
 		date = new Date();
