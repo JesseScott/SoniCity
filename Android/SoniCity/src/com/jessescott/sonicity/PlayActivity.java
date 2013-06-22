@@ -42,6 +42,10 @@ public class PlayActivity extends Activity {
 	SimpleDateFormat format;
 	Date date;
 	
+	private String dirName;
+	Boolean isSDPresent = false;
+
+	
 	private PdUiDispatcher dispatcher;
 	private PdService pdService = null;
 	
@@ -320,7 +324,34 @@ public class PlayActivity extends Activity {
 		
 		// PD Service
 		bindService(new Intent(this, PdService.class), pdConnection, BIND_AUTO_CREATE);
-				
+		
+		// Directory
+		isSDPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+		if(isSDPresent) {
+			Log.v(TAG, " - SD Card Online - ");
+			try{
+				dirName = "//sdcard//SonicCity";
+				File newFile = new File(dirName);
+				newFile.mkdirs();
+				if(newFile.exists()) {
+					if(newFile.isDirectory()) {
+
+					} 
+					else {
+
+					}
+				} 
+				else {
+				}
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			Log.v(TAG, " - No SD Card Available - ");
+		}
+		
 		// Runnable
 		handler = new Handler();
 		runnable = new Runnable() {
