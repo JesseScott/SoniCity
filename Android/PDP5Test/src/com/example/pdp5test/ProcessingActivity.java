@@ -8,12 +8,9 @@ import java.io.IOException;
 import org.puredata.android.io.AudioParameters;
 import org.puredata.android.io.PdAudio;
 import org.puredata.core.PdBase;
-import org.puredata.core.PdListener;
-import org.puredata.android.utils.PdUiDispatcher;
 import org.puredata.core.utils.IoUtils;
 
 import android.util.Log;
-import android.widget.Toast;
 
 
 public class ProcessingActivity extends PApplet {
@@ -21,29 +18,30 @@ public class ProcessingActivity extends PApplet {
 	 /* ---- GLOBAL VARS ----*/ 
 	 
 	 private static final String TAG = "PDP5";
-	 private PdUiDispatcher dispatcher;
-	 private Toast toast = null;
-
-
+	 
+	 // PureData to processing:
+	 PureDataActivity plugIt = new PureDataActivity();
+	 
 	 /* ---- PROCESSING ----*/
 	 
-	 public void setup() {
+	 public void setup()  {
 		 Log.v(TAG, "Setup");
+		 // Load Pd patch file
+		try {
+			initPd();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
+		 // Routine processing setup things:
 		 background(255, 0, 0);
 		 fill(255);
 		 textSize(48);
 		 text("PDP5", 200, 200);
-		 
-		// PD
-		try {
-			initPd();
-			loadPatch();
-		} catch (IOException e) {
-			Log.e(TAG, e.toString());
-			finish();
-		}
-	 }
+	 }	 
 	 
+	 	//All the fun Processing stuff 
 	 public void draw() {
 		 background(255, 0, 0);
 		 fill(255);
@@ -53,46 +51,27 @@ public class ProcessingActivity extends PApplet {
 	 }
 		
 	 /* ---- PURE DATA ----*/
-		
+	
 		// Initialize PureData
 		private void initPd() throws IOException {
-			Log.v(TAG, "Init Pd");
-			// Configure the audio glue
-			int sampleRate = AudioParameters.suggestSampleRate();
+			
+		 int sampleRate = AudioParameters.suggestSampleRate();
+		 try {
 			PdAudio.initAudio(sampleRate, 0, 2, 8, true);
-			
-			// Dispatcher
-			dispatcher = new PdUiDispatcher();
-			dispatcher.addListener("XY", new PdListener.Adapter() {
-				@Override
-				public void receiveFloat(String source, float x) {
-					Log.v(TAG, "Received " + x);
-				}
-			});
-			PdBase.setReceiver(dispatcher);
-			
+			Log.v(TAG, "--> INIT AUDIO");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
-		
-		private void toast(final String msg) {
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					if (toast == null) {
-						toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
-					}
-					toast.setText(TAG + ": " + msg);
-					toast.show();
-				}
-			});
-		}
-
-		private void post(final String s) {
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					//logs.append(s + ((s.endsWith("\n")) ? "" : "\n"));
-				}
-			});
+		 
+		 // Start audio in the context of PdActivity (plugIt)
+		 PdAudio.startAudio(plugIt);
+		 try {
+				loadPatch();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		// Load PureData Patch
@@ -104,28 +83,28 @@ public class ProcessingActivity extends PApplet {
 			PdBase.openPatch(patchFile.getAbsolutePath());
 		}
 		
+	 
 		// Send X
 		public void sendX(int n) {
 			//Log.v(TAG, "Sending " + n + " to Pd X" );
-			PdBase.sendFloat("MOUSEX", n);
+			PdBase.sendFloat("MX", n);
 		}
 		
 		// Send Y
 		public void sendY(int n) {
 			//Log.v(TAG, "Sending " + n + " to Pd Y" );
-			PdBase.sendFloat("MOUSEY", n);
+			PdBase.sendFloat("MY", n);
 		}
-
-		
+	
 		
 		/* ---- ANDROID ----*/
-		
+
 		// Resume
 		@Override
 		protected void onResume() {
 			super.onResume();
 			Log.v(TAG, "onResume");
-			PdAudio.startAudio(this);
+			PdAudio.startAudio(plugIt);
 		}
 		
 		// Pause
@@ -145,4 +124,5 @@ public class ProcessingActivity extends PApplet {
 			PdBase.release();
 		}
 
+		
 }
