@@ -1,12 +1,16 @@
 package com.jessescott.sonicity;
 
 /* IMPORTS */
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -41,6 +45,11 @@ public class PlayActivity extends Activity {
 	public Runnable runnable;
 	SimpleDateFormat format;
 	Date date;
+	
+	private String dirName;
+	Boolean isSDPresent = false;
+	Date fileDate;
+	BufferedWriter writer;
 	
 	private PdUiDispatcher dispatcher;
 	private PdService pdService = null;
@@ -289,6 +298,7 @@ public class PlayActivity extends Activity {
 		
 	}
 	
+	@SuppressLint("SimpleDateFormat")
 	public Date getTime() {
 		format = new SimpleDateFormat("HH:MM:SS");
 		date = new Date();
@@ -320,7 +330,40 @@ public class PlayActivity extends Activity {
 		
 		// PD Service
 		bindService(new Intent(this, PdService.class), pdConnection, BIND_AUTO_CREATE);
-				
+		
+		// Directory
+		isSDPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+		if(isSDPresent) {
+			Log.v(TAG, " - SD Card Online - ");
+			try{
+				dirName = "//sdcard//SonicCity";
+				File newFile = new File(dirName);
+				newFile.mkdirs();
+			}
+			catch(Exception e) {
+				Log.e(TAG, "Couldnt Access SD Card");
+				e.printStackTrace();
+			}
+		}
+		else {
+			Log.v(TAG, " - No SD Card Available - ");
+		}
+		
+		// Writer
+		try {
+			SimpleDateFormat hhmmss = new SimpleDateFormat("HH_MM_SS");
+			fileDate = getTime();
+			StringBuilder fileName = new StringBuilder(hhmmss.format(getTime()));
+			Log.v(TAG, "The time is " + fileName);
+			writer = new BufferedWriter(new FileWriter("//sdcard//SonicCity//" + fileName + ".txt", true));
+			writer.flush();
+			//writer.close();
+		}
+		catch(Exception e) {
+			Log.e(TAG, "Couldnt Create File");
+			e.printStackTrace();
+		}
+		
 		// Runnable
 		handler = new Handler();
 		runnable = new Runnable() {
@@ -351,6 +394,27 @@ public class PlayActivity extends Activity {
 				ActualAltitude.setText(locationListener.getCurrentAltitude());
 				ActualSpeed.setText(locationListener.getCurrentSpeed());
 				ActualAccuracy.setText(locationListener.getCurrentAccuracy());
+				
+				// Write Data
+				try {
+					writer.write(locationListener.getCurrentLatitude());
+					writer.write("\t");
+					writer.write(locationListener.getCurrentLongitude());
+					writer.write("\t");
+					writer.write(locationListener.getCurrentAltitude());
+					writer.write("\t");
+					writer.write(locationListener.getCurrentSpeed());
+					writer.write("\t");
+					writer.write(locationListener.getCurrentAccuracy());
+					writer.write("\t");
+					writer.write("\n");
+					writer.flush();
+					//writer.close();
+				}
+				catch(Exception e) {
+					Log.e(TAG, "Couldnt Write To File");
+					e.printStackTrace();
+				}
 				
 				Log.v(TAG, "runnable running at " + getTime());
 			}
@@ -394,6 +458,13 @@ public class PlayActivity extends Activity {
 		
 		// Kill Runnable
 		handler.removeCallbacks(runnable);
+		
+		// Close Writer
+		try {
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		// Kill Pd
 		cleanupPd();
