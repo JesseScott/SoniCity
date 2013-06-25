@@ -359,7 +359,6 @@ public class PlayActivity extends Activity {
 					writer.write("\t");
 					writer.write("\n");
 					writer.flush();
-					//writer.close();
 				}
 				catch(Exception e) {
 					Log.e(TAG, "Couldnt Write To File");
