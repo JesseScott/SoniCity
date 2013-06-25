@@ -1,4 +1,4 @@
-#N canvas 1308 22 587 724 10;
+#N canvas 1069 201 587 724 10;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array Synth1 300 float 1;
 #A 0 0.0634911 0.0553012 0.0472304 0.0392828 0.0314621 0.023772 0.0162161
@@ -234,7 +234,7 @@
 #X restore 150 -368 pd parsing;
 #X obj 128 -298 cnv 15 100 100 empty empty empty 20 12 0 14 -228856
 -66577 0;
-#N canvas 334 22 909 897 sonic 1;
+#N canvas 854 22 869 841 sonic 0;
 #X obj 19 13 cnv 15 500 60 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X floatatom 23 49 5 0 0 0 - - -;
@@ -251,11 +251,11 @@
 #X obj 427 506 cnv 15 100 70 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 446 533 hsl 45 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 330 1;
+-1 -1 0 1;
 #X obj 12 567 cnv 15 100 70 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 32 596 hsl 45 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 330 1;
+-1 -1 0 1;
 #X obj 29 700 s~ oscLat;
 #X obj 443 643 s~ oscLon;
 #X obj 73 278 cnv 15 140 140 empty empty empty 20 12 0 14 -233017 -66577
@@ -393,8 +393,6 @@
 #X obj 443 504 * 0.1;
 #X obj 29 564 * 0.1;
 #X msg 92 157 bang;
-#X text 37 638;
-#X text 452 576;
 #X msg 274 157 bang;
 #X obj 29 677 clip~ -1 1;
 #X connect 3 0 92 1;
@@ -450,7 +448,7 @@
 #X connect 71 0 93 2;
 #X connect 72 0 71 1;
 #X connect 75 0 76 1;
-#X connect 75 0 109 0;
+#X connect 75 0 107 0;
 #X connect 76 0 74 0;
 #X connect 76 0 77 0;
 #X connect 77 0 87 0;
@@ -467,8 +465,8 @@
 #X connect 89 0 5 0;
 #X connect 90 0 3 0;
 #X connect 91 0 50 0;
-#X connect 92 0 110 0;
-#X connect 92 1 110 0;
+#X connect 92 0 108 0;
+#X connect 92 1 108 0;
 #X connect 93 0 36 0;
 #X connect 93 1 36 0;
 #X connect 94 0 29 0;
@@ -483,8 +481,8 @@
 #X connect 104 0 9 0;
 #X connect 105 0 11 0;
 #X connect 106 0 28 0;
-#X connect 109 0 76 0;
-#X connect 110 0 12 0;
+#X connect 107 0 76 0;
+#X connect 108 0 12 0;
 #X restore 150 -258 pd sonic;
 #X obj 348 -519 cnv 15 150 100 empty empty empty 20 12 0 14 -203904
 -66577 0;
@@ -585,7 +583,7 @@
 #X obj 126 190 hip~ 1;
 #X obj 126 219 clip~ -1 1;
 #X obj 81 92 vsl 15 30 0 1 0 0 empty empty empty 0 -9 0 10 -228856
--1 -1 1200 1;
+-1 -1 0 1;
 #X obj 55 19 r~ oscLat;
 #X obj 80 42 r GO;
 #X obj 129 42 r STOP;
@@ -595,7 +593,7 @@
 #X obj 325 192 hip~ 1;
 #X obj 325 221 clip~ -1 1;
 #X obj 281 91 vsl 15 30 0 1 0 0 empty empty empty 0 -9 0 10 -228856
--1 -1 1000 1;
+-1 -1 0 1;
 #X obj 254 156 *~ \$1;
 #X msg 281 65 1;
 #X obj 281 41 r GO;
