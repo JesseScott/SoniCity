@@ -8,7 +8,7 @@
     <!-- SDK VERSIONS  -->
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="16" 
+        android:targetSdkVersion="17" 
     />
     
     <!-- SCREEN SIZES  -->
