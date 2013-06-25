@@ -38,7 +38,7 @@
 -66577 0;
 #X obj 157 -344 cnv 15 100 100 empty empty empty 20 12 0 14 -228856
 -66577 0;
-#N canvas 1174 656 441 326 output 0;
+#N canvas 1174 656 441 326 output 1;
 #X obj 24 -16 cnv 15 400 300 empty empty empty 20 12 0 14 -162280 -66577
 0;
 #X obj 255 112 *~ 0.1;
@@ -49,7 +49,7 @@
 #X obj 326 178 clip~ -1 1;
 #X obj 255 19 r~ oscLon;
 #X obj 317 69 vsl 15 30 0 1 0 0 empty empty empty 0 -9 0 10 -228856
--1 -1 2900 1;
+-1 -1 0 1;
 #X obj 279 67 *~ \$1;
 #X obj 77 112 *~ 0.1;
 #X obj 77 215 dac~;
@@ -58,7 +58,7 @@
 #X obj 148 149 hip~ 1;
 #X obj 148 178 clip~ -1 1;
 #X obj 142 69 vsl 15 30 0 1 0 0 empty empty empty 0 -9 0 10 -228856
--1 -1 2900 1;
+-1 -1 0 1;
 #X obj 104 67 *~ \$1;
 #X obj 77 19 r~ oscLat;
 #X msg 142 18 loadbang;
@@ -71,9 +71,8 @@
 #X connect 4 0 2 0;
 #X connect 5 0 6 0;
 #X connect 6 0 2 1;
-#X connect 7 0 9 0;
+#X connect 7 0 1 0;
 #X connect 8 0 9 1;
-#X connect 9 0 1 0;
 #X connect 10 0 12 0;
 #X connect 10 0 14 0;
 #X connect 12 0 13 0;
@@ -81,8 +80,7 @@
 #X connect 14 0 15 0;
 #X connect 15 0 11 1;
 #X connect 16 0 17 1;
-#X connect 17 0 10 0;
-#X connect 18 0 17 0;
+#X connect 18 0 10 0;
 #X connect 19 0 20 0;
 #X connect 20 0 16 0;
 #X connect 21 0 22 0;
@@ -98,7 +96,7 @@
 #X obj -94 479 cnv 15 110 110 empty empty empty 20 12 0 14 -233017
 -66577 0;
 #X obj -73 539 hsl 45 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 4400 1;
+-1 -1 0 1;
 #X obj -33 191 cnv 15 140 160 empty empty empty 20 12 0 14 -233017
 -66577 0;
 #X obj 20 286 * 1000;
@@ -174,7 +172,7 @@
 #X obj 293 483 cnv 15 110 110 empty empty empty 20 12 0 14 -233017
 -66577 0;
 #X obj 314 543 hsl 45 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 4400 1;
+-1 -1 0 1;
 #X obj 500 37 cnv 15 100 150 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 524 74 r ALT;
@@ -216,7 +214,7 @@
 #X obj 509 52 r LONm;
 #X obj 311 511 * 0.025;
 #X obj -76 507 * 0.025;
-#X text 319 585;
+#X text 319 585 comment;
 #X obj -25 307 pack f f;
 #X obj -25 329 line \$1 \$2;
 #X msg 20 265 5;
