@@ -38,7 +38,7 @@
 -66577 0;
 #X obj 157 -344 cnv 15 100 100 empty empty empty 20 12 0 14 -228856
 -66577 0;
-#N canvas 1174 656 441 326 output 1;
+#N canvas 1174 656 441 326 output 0;
 #X obj 24 -16 cnv 15 400 300 empty empty empty 20 12 0 14 -162280 -66577
 0;
 #X obj 255 112 *~ 0.1;
@@ -86,7 +86,7 @@
 #X connect 21 0 22 0;
 #X connect 22 0 8 0;
 #X restore 176 -301 pd output;
-#N canvas 21 22 818 842 sonicize 0;
+#N canvas 21 22 818 842 sonicize 1;
 #X obj -89 711 cnv 15 500 60 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X floatatom -73 747 5 0 0 0 - - -;
@@ -250,6 +250,8 @@
 #X msg 569 269 5;
 #X obj 524 203 r LONs;
 #X obj 524 385 osc~ 1;
+#X obj 137 240 / 100;
+#X obj 524 246 / 100;
 #X connect 3 0 31 1;
 #X connect 5 0 31 0;
 #X connect 7 0 75 1;
@@ -288,7 +290,7 @@
 #X connect 46 0 47 0;
 #X connect 47 0 45 0;
 #X connect 47 0 97 0;
-#X connect 48 0 45 0;
+#X connect 48 0 108 0;
 #X connect 50 0 31 2;
 #X connect 52 0 58 1;
 #X connect 54 0 58 0;
@@ -343,8 +345,10 @@
 #X connect 103 0 104 0;
 #X connect 104 0 107 0;
 #X connect 105 0 102 0;
-#X connect 106 0 99 0;
+#X connect 106 0 109 0;
 #X connect 107 0 69 1;
+#X connect 108 0 45 0;
+#X connect 109 0 99 0;
 #X restore 60 -301 pd sonicize;
 #X obj 274 -458 cnv 15 150 100 empty empty empty 20 12 0 14 -203904
 -66577 0;
@@ -441,7 +445,7 @@
 -0.027788 -0.0437944 -0.0595622 -0.0750709 -0.0902985 -0.105225;
 #X coords 0 -1 299 1 300 200 1;
 #X restore 357 -219 graph;
-#N canvas 582 905 550 251 send 0;
+#N canvas 585 633 550 251 send 0;
 #X obj 22 23 cnv 15 500 200 empty empty empty 20 12 0 14 -162280 -66577
 0;
 #X msg 431 109 5;
