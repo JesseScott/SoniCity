@@ -240,61 +240,11 @@ public class PlayActivity extends Activity {
 		// TextViews
 		latitude  = (TextView) findViewById(R.id.Latitude);
 		longitude = (TextView) findViewById(R.id.Longitude);
-		
 		ActualLatitude  = (TextView) findViewById(R.id.ActualLat);
-		ActualLatitude.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Log.v(TAG, "Asking For New Latitude");
-				ActualLatitude.setText(locationListener.getCurrentLatitude());
-				float lat = Float.parseFloat(locationListener.getCurrentLatitude());
-				sendLatToPd(lat);
-			}
-		});
-		
 		ActualLongitude = (TextView) findViewById(R.id.ActualLon);
-		ActualLongitude.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Log.v(TAG, "Asking For New Longitude");
-				ActualLongitude.setText(locationListener.getCurrentLongitude());
-				float lon = Float.parseFloat(locationListener.getCurrentLongitude());
-				sendLonToPd(lon);
-			}
-		});
-		
-		ActualAltitude = (TextView) findViewById(R.id.ActualAlt);
-		ActualAltitude.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Log.v(TAG, "Asking For New Altitude");
-				ActualAltitude.setText(locationListener.getCurrentAltitude());
-				float alt = Float.parseFloat(locationListener.getCurrentAltitude());
-				sendAltToPd(alt);
-			}
-		});
-		
+		ActualAltitude = (TextView) findViewById(R.id.ActualAlt);	
 		ActualSpeed = (TextView) findViewById(R.id.ActualSpd);
-		ActualSpeed.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Log.v(TAG, "Asking For New Speed");
-				ActualSpeed.setText(locationListener.getCurrentSpeed());
-				float spd = Float.parseFloat(locationListener.getCurrentSpeed());
-				sendSpdToPd(spd);
-			}
-		});
-		
 		ActualAccuracy = (TextView) findViewById(R.id.ActualAcc);
-		ActualAccuracy.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Log.v(TAG, "Asking For New Accuracy");
-				ActualAccuracy.setText(locationListener.getCurrentAccuracy());
-				float acc = Float.parseFloat(locationListener.getCurrentAccuracy());
-				sendAccToPd(acc);
-			}
-		});
 		
 	}
 	
@@ -409,7 +359,6 @@ public class PlayActivity extends Activity {
 					writer.write("\t");
 					writer.write("\n");
 					writer.flush();
-					//writer.close();
 				}
 				catch(Exception e) {
 					Log.e(TAG, "Couldnt Write To File");
