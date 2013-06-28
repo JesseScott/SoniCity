@@ -1,50 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/PlayScreen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/play_btn"
-        android:textAppearance="?android:attr/textAppearanceLarge" 
-    />
 
-    <TextView
-        android:id="@+id/Longitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/PlayScreen"
-        android:layout_below="@+id/Latitude"
-        android:layout_marginTop="27dp"
-        android:text="@string/longitude"
-        android:textAppearance="?android:attr/textAppearanceMedium" 
-    />
-
+	<!-- LAT -->
     <TextView
         android:id="@+id/Latitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/Longitude"
-        android:layout_below="@+id/PlayScreen"
-        android:layout_marginTop="35dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="120dp"
         android:text="@string/latitude"
-        android:textAppearance="?android:attr/textAppearanceMedium" 
-    />
-
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
     <TextView
         android:id="@+id/ActualLat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/Longitude"
-        android:layout_toRightOf="@+id/Longitude"
         android:layout_marginLeft="10dp"
-        android:text="0.0"
+        android:layout_toRightOf="@+id/Longitude"
+        android:text="@string/initial"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
+    <!-- LON -->
+        
     <TextView
         android:id="@+id/ActualLon"
         android:layout_width="wrap_content"
@@ -53,7 +36,77 @@
         android:layout_alignBottom="@+id/Longitude"
         android:layout_alignLeft="@+id/ActualLat"
         android:layout_marginLeft="0dp"
-        android:text="0.0"
+        android:text="@string/initial"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <!-- ALT -->
+    <TextView
+        android:id="@+id/Altitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Longitude"
+        android:layout_below="@+id/Longitude"
+        android:layout_marginTop="20dp"
+        android:text="@string/altitude"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <!-- SPD -->
+    <TextView
+        android:id="@+id/Speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Altitude"
+        android:layout_below="@+id/Altitude"
+        android:layout_marginTop="20dp"
+        android:text="@string/speed"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <!-- ACC -->
+    <TextView
+        android:id="@+id/Accuracy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Speed"
+        android:layout_below="@+id/Speed"
+        android:layout_marginTop="20dp"
+        android:text="@string/accuracy"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/ActualAlt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Speed"
+        android:layout_alignLeft="@+id/ActualLon"
+        android:text="@string/initial"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/ActualSpd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/Speed"
+        android:layout_alignLeft="@+id/ActualAlt"
+        android:text="@string/initial"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/ActualAcc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/Accuracy"
+        android:layout_alignLeft="@+id/ActualSpd"
+        android:text="@string/initial"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/Longitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Latitude"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/longitude"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>
