@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -16,7 +15,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.view.View;
 import android.widget.TextView;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -276,7 +274,7 @@ public class PlayActivity extends Activity {
 		locationListener = new MyLocationListener(this);
 		
 		// Telephone Services
-		initSystemServices();
+		initSystemServices();	
 		
 		// PD Service
 		bindService(new Intent(this, PdService.class), pdConnection, BIND_AUTO_CREATE);
