@@ -274,7 +274,7 @@ public class PlayActivity extends Activity {
 		locationListener = new MyLocationListener(this);
 		
 		// Telephone Services
-		initSystemServices();
+		initSystemServices();	
 		
 		// PD Service
 		bindService(new Intent(this, PdService.class), pdConnection, BIND_AUTO_CREATE);
